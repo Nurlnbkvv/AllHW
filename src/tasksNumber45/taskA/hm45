@@ -1,0 +1,37 @@
+create table "admin".visitors
+(
+    fullname varchar,
+    id serial not null,
+    "dateOfBirth" TIMESTAMP,
+    gender varchar);
+
+create unique index visitors_id_index
+   on "admin".visitors (id);
+alter table "admin".visitors
+    add constraint visitors_pk
+        primary key (id);
+
+create table "admin".visits
+(
+    id serial not null
+        constraint visits_products_id_fk
+            references "admin".visitors,
+    column_2 int,
+    visitor_id int,
+    date timestamp,
+    trainer varchar
+);
+
+create unique index visits_id_uindex
+   on "admin".visits (id);
+alter table "admin".visits
+    add constraint visits_pk
+        primary key (id);
+
+insert into "admin".visitors
+values ('Nurbekov Temirlan Nurbekovich', 1, '16.04.2001 00:00:00.000000', 'male')
+
+select vv.fullname, v.trainer, v.date
+from "admin".visits v
+         inner join "admin".visitors vv on v.visitor_id = vv.id
+order by v.date
